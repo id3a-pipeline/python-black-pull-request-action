@@ -19,8 +19,9 @@ curl --request GET --url ${github_pr_url} --header "authorization: Bearer ${GITH
 diff_length=`wc -l github_diff.txt`
 echo "approximate diff size: ${diff_length}"
 python_files=`cat github_diff.txt | grep -E -- "\+\+\+" | awk '{print $2}' | grep -Po -- "(?<=[ab]/).+\.py$"`
+echo "python files with diff: ${python_files}"
 
-if [ -z "${python_files}" ];then
+if [ ! "${python_files}" ];then
    echo "no python files to check"
 else
     echo "python files edited in this PR: ${python_files}"
@@ -31,6 +32,6 @@ else
         line_length="${LINE_LENGTH}"
     fi
 
-    black --line-length ${line_length} --check ${python_files}
+    black --line-length ${line_length} --check ${python_files} 
 
 fi
