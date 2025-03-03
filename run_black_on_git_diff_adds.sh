@@ -17,6 +17,11 @@ github_pr_url=`sed -e 's/^"//' -e 's/"$//' <<<"$github_pr_url"`
 echo "looking for diff at ${github_pr_url}"
 curl --request GET --url ${github_pr_url} --header "authorization: Bearer ${GITHUB_TOKEN}" --header "Accept: application/vnd.github.v3.diff" > github_diff.txt
 diff_length=`wc -l github_diff.txt`
+
+while IFS= read -r line; do
+    echo "github_diff.txt:->>$line"
+done < github_diff.txt
+
 echo "approximate diff size: ${diff_length}"
 python_files=`cat github_diff.txt | grep -E -- "\+\+\+" | awk '{print $2}' | grep -Po -- "(?<=[ab]/).+\.py$"`
 echo "python files with diff: ${python_files}"
