@@ -15,11 +15,8 @@ github_pr_url=`jq '.pull_request.url' ${GITHUB_EVENT_PATH}`
 # github pr url sometimes has leading and trailing quotes
 github_pr_url=`sed -e 's/^"//' -e 's/"$//' <<<"$github_pr_url"`
 echo "looking for diff at ${github_pr_url}"
-pullLocation=$(dirname "${github_pr_url}")
-repoUrl=$(dirname "${pullLocation}")
-pullNumber=$(basename "${github_pr_url}")
 
-curl --request GET --repo "${repoUrl}" --pull_number  ${pullNumber} --header "Authorization: Bearer ${GITHUB_TOKEN}" --header "X-GitHub-Api-Version: 2022-11-28" --header "Accept: application/vnd.github.diff" > github_diff.txt
+curl --request GET "${github_pr_url}" --header "Authorization: Bearer ${GITHUB_TOKEN}" --header "Accept: application/vnd.github.v3.diff" > github_diff.txt
 diff_length=`wc -l github_diff.txt`
 
 while IFS= read -r line; do
