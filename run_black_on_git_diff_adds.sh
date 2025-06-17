@@ -33,7 +33,7 @@ else
     existing_python_files=""
     for file in $python_files; do
         echo "Checking file exists: ./$file"
-        if [ -f "./$file"]; then
+        if [ -f "./$file" ]; then
             existing_python_files="$existing_python_files $file"
         fi
     done
