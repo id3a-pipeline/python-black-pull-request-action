@@ -45,13 +45,12 @@ else
     else
         line_length="${LINE_LENGTH}"
     fi
-    echo ""
+    echo "-----------------------------------"
     echo "See below for files that nee black formatting done on them:"
-    result_output=`black --line-length ${line_length} --check ${existing_python_files} `
-    if echo "$result_output" | grep -q "Oh no!"; then
-        echo ""
-        echo "To quickly fix this, open the file, click 'Ctrl + A'"
-        echo "then click 'Ctrl + Shift + L' to reformat the file correctly."
-    fi
+    echo "--"
+    black --line-length ${line_length} --check ${existing_python_files}
+    echo "-----------------------------------"
+    echo "To quickly fix this, open the file in PyCharm, click 'Ctrl + A'"
+    echo "then click 'Ctrl + Shift + L' to reformat the file correctly."
     
 fi
