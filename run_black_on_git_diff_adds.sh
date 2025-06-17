@@ -32,7 +32,8 @@ if [ ! "${python_files}" ];then
 else
     existing_python_files=""
     for file in $python_files; do
-        if [ -f "$file"]; then
+        echo "Checking file exists: ./$file"
+        if [ -f "./$file"]; then
             existing_python_files="$existing_python_files $file"
         fi
     done
