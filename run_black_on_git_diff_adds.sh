@@ -23,34 +23,35 @@ while IFS= read -r line; do
     echo "github_diff.txt:->>$line"
 done < github_diff.txt
 
-echo "approximate diff size: ${diff_length}"
+#echo "approximate diff size: ${diff_length}"
 python_files=`cat github_diff.txt | grep -E -- "\+\+\+" | awk '{print $2}' | grep -Po -- "(?<=[ab]/).+\.py$"`
-echo "python files with diff: ${python_files}"
+#echo "python files with diff: ${python_files}"
 
 if [ ! "${python_files}" ];then
-   echo "no python files to check"
+   echo "no python files to check!"
 else
     existing_python_files=""
     for file in $python_files; do
-        echo "Checking file exists: ./$file"
+        #echo "Checking file exists: ./$file"
         if [ -f "./$file" ]; then
             existing_python_files="$existing_python_files $file"
         fi
     done
     existing_python_files=$(echo "$existing_python_files" | xargs)
-    echo "python files edited in this PR: ${existing_python_files}"
-
+    echo "python files edited in this PR:"
+    echo "${existing_python_files}"
+    echo "-----------------------------------"
     if [[ -z "${LINE_LENGTH}" ]]; then
     line_length=108
     else
         line_length="${LINE_LENGTH}"
     fi
     echo "-----------------------------------"
+    echo "To quickly fix this, open the file in PyCharm, click 'Ctrl + A'"
+    echo "then click 'Ctrl + Shift + L' to reformat the file correctly."
+    echo "--"
     echo "See below for files that nee black formatting done on them:"
     echo "--"
     black --line-length ${line_length} --check ${existing_python_files}
-    echo "-----------------------------------"
-    echo "To quickly fix this, open the file in PyCharm, click 'Ctrl + A'"
-    echo "then click 'Ctrl + Shift + L' to reformat the file correctly."
     
 fi
