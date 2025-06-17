@@ -52,6 +52,6 @@ else
         echo ""
         echo "To quickly fix this, open the file, click 'Ctrl + A'"
         echo "then click 'Ctrl + Shift + L' to reformat the file correctly."
-    
+    fi
     
 fi
