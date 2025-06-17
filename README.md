@@ -21,7 +21,7 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so that black can inspect it
       - uses: actions/checkout@v2
-      - uses: rgasper/python-black-pull-request-action@master
+      - uses: id3a-pipeline/python-black-pull-request-action@master
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 ```
