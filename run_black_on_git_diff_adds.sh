@@ -30,14 +30,21 @@ echo "python files with diff: ${python_files}"
 if [ ! "${python_files}" ];then
    echo "no python files to check"
 else
-    echo "python files edited in this PR: ${python_files}"
+    existing_python_files=""
+    for file in $python_files; do
+        if [ -f "$file"]; then
+            existing_python_files="$existing_python_files $file"
+        fi
+    done
+    existing_python_files=$(echo "$existing_python_files" | xargs)
+    echo "python files edited in this PR: ${existing_python_files}"
 
     if [[ -z "${LINE_LENGTH}" ]]; then
-    line_length=130
+    line_length=108
     else
         line_length="${LINE_LENGTH}"
     fi
 
-    black --line-length ${line_length} --check ${python_files} 
-
+    result_output=`black --line-length ${line_length} --check ${existing_python_files} `
+    
 fi
