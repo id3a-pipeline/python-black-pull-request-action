@@ -38,6 +38,7 @@ else
         fi
     done
     existing_python_files=$(echo "$existing_python_files" | xargs)
+    echo "-----------------------------------"
     echo "python files edited in this PR:"
     echo "${existing_python_files}"
     echo "-----------------------------------"
@@ -46,11 +47,10 @@ else
     else
         line_length="${LINE_LENGTH}"
     fi
-    echo "-----------------------------------"
-    echo "To quickly fix this, open the file in PyCharm, click 'Ctrl + A'"
-    echo "then click 'Ctrl + Shift + L' to reformat the file correctly."
     echo "--"
-    echo "See below for files that nee black formatting done on them:"
+    echo "To quickly fix any of the files (if any below) open the file in PyCharm,"
+    echo "Click 'Ctrl + A', then click 'Ctrl + Shift + L' to reformat the file correctly."
+    echo "See below for files that need to be black formatted:"
     echo "--"
     black --line-length ${line_length} --check ${existing_python_files}
     
